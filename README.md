@@ -1,3 +1,6 @@
 # Raycasting in C
+## On Linux
 
-##  Will be utilizing the 3DSage tutorial as this is my first raycaster.
+
+## Code Info
+>  Will be utilizing the 3DSage tutorial as this is my first raycaster.
