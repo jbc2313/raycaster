@@ -106,7 +106,7 @@ void drawRays2D() {
     if (ra > 2 * PI) {
         ra -= 2 * PI;
     };
-    for (r = 0; r < 1; r++) {
+    for (r = 0; r < 10; r++) {
         // check horizontal lines
         dof = 0;
         float disH=1000000, hx=px, hy=py;
@@ -212,6 +212,13 @@ void drawRays2D() {
         glVertex2i(px,py); 
         glVertex2i(rx,ry); 
         glEnd();
+        ra += DR;
+        if (ra < 0) {
+            ra += 2 * PI;
+        }
+        if (ra > 2 * PI) {
+            ra -= 2 * PI;
+        }
     };
 };
 
