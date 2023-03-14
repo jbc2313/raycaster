@@ -1,4 +1,3 @@
 # Raycasting in C
 
-## Will be moving this to Linux.
-## Having trouble with Mac.
+##  Will be utilizing the 3DSage tutorial as this is my first raycaster.
