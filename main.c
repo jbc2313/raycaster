@@ -6,6 +6,7 @@
 #define PI 3.1415926
 #define PI2 PI/2
 #define PI3 3*PI/2
+#define DR 0.0174533 // one degree in radians
 
 // Program setup to run on Linux(Fedora)
 
@@ -98,7 +99,13 @@ float dist(float ax, float ay, float bx, float by, float ang) {
 void drawRays2D() {
     int r, mx, my, mp, dof;
     float rx, ry, ra, xo, yo;
-    ra=pa;
+    ra = pa - DR * 30;
+    if (ra < 0) {
+        ra += 2 * PI;
+    };
+    if (ra > 2 * PI) {
+        ra -= 2 * PI;
+    };
     for (r = 0; r < 1; r++) {
         // check horizontal lines
         dof = 0;
