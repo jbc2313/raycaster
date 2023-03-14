@@ -126,7 +126,7 @@ void drawRays3D() {
             };
         };
         glColor3f(0,1,0);
-        glLineWidth(1);
+        glLineWidth(10);
         glBegin(GL_LINES);
         glVertex2i(px, py);
         glVertex2i(rx, ry);
