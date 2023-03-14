@@ -87,12 +87,22 @@ void drawMap2D() {
     }
 };
 
-void drawRays3D() {
+
+float dist(float ax, float ay, float bx, float by, float ang) {
+    return (
+        sqrt((bx - ax) * (bx - ax) + (by - ay) * (by - ay))
+    );
+}
+
+
+void drawRays2D() {
     int r, mx, my, mp, dof;
     float rx, ry, ra, xo, yo;
     ra=pa;
     for (r = 0; r < 1; r++) {
+        // check horizontal lines
         dof = 0;
+        float disH=1000000, hx=px, hy=py;
         float aTan = -1/tan(ra);
         if (ra > PI) {
             // player looking down
@@ -109,6 +119,7 @@ void drawRays3D() {
             xo = -yo * aTan;
         };
         if (ra == 0.0 || ra == PI) {
+            // looking straight left or right
             rx = px;
             ry = py;
             dof = 8;
@@ -117,36 +128,47 @@ void drawRays3D() {
             mx = (int) (rx) >> 6;
             my = (int) (ry) >> 6;
             mp = my * mapX + mx;
-            if (mp < mapX * mapY && map[mp] == 1) {
+            if (mp > 0 && mp < mapX * mapY && map[mp] == 1) {
+                // hit a wall
+                hx = rx;
+                hy = ry;
+                disH = dist(px, py, hx, hy, ra);
                 dof = 8;
             } else {
+                // go to next line
                 rx += xo;
                 ry += yo;
                 dof += 1;
             };
         };
-        glColor3f(0,1,0);
-        glLineWidth(10);
-        glBegin(GL_LINES);
-        glVertex2i(px, py);
-        glVertex2i(rx, ry);
-        glEnd();
-
+        // displays raycast 
+        // glColor3f(0,1,0);
+        // glLineWidth(10);
+        // glBegin(GL_LINES);
+        // glVertex2i(px, py);
+        // glVertex2i(rx, ry);
+        // glEnd();
+        
+        // check vertical lines
         dof = 0;
+        float disV=1000000, vx=px, vy=py;
         float nTan = -tan(ra);
         if (ra > PI2 && ra < PI3) { 
+            // looking left
             rx = (((int)px>>6)<<6)-0.0001; 
             ry=(px-rx)*nTan+py; 
             xo=-64; 
             yo=-xo*nTan;
         }
-        if (ra < PI2 && ra > PI3) { 
+        if (ra < PI2 || ra > PI3) { 
+            // looking right
             rx = (((int)px>>6)<<6)+64; 
             ry=(px-rx)*nTan+py; 
             xo=64; 
             yo=-xo*nTan;
         }
         if(ra==0 || ra==PI) { 
+            // loking straight up or down
             rx=px; 
             ry=py; 
             dof=8;
@@ -155,14 +177,28 @@ void drawRays3D() {
             mx=(int)(rx)>>6; 
             my=(int)(ry)>>6; 
             mp=my*mapX+mx;
-            if(mp<mapX*mapY && map[mp]==1){ 
+            if(mp > 0 && mp < mapX * mapY && map[mp] == 1) { 
+                // hit a wall 
+                vx = rx;
+                vy = ry;
+                disV = dist(px, py, vx, vy, ra);
                 dof=8;
             } else { 
+                // go to next line
                 rx+=xo; 
                 ry+=yo; 
                 dof+=1;
             }
         }
+        if (disV < disH) {
+            rx = vx;
+            ry = vy;
+        };
+        if (disH < disV) {
+            rx = hx;
+            ry = hy;
+        };
+
         glColor3f(1,0,0); 
         glLineWidth(3); 
         glBegin(GL_LINES); 
@@ -177,7 +213,7 @@ void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     drawMap2D();
     drawPlayer();
-    drawRays3D();
+    drawRays2D();
     glutSwapBuffers();
 };
 
