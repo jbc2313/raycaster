@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <GLFW/glfw3.h>
+#include <GL/glut.h>
+
+// Program setup to run on Linux(Fedora)
+
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glfwSwapBuffers();
+    glutSwapBuffers();
 };
 
 void init() {
@@ -13,11 +16,11 @@ void init() {
 };
 
 int main(int argc, char *argv[]) {
-    glfwInit(&argc, argv);
-    glfwInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-    glfwInitWindowSize(1024, 512);
-    glfwCreateWindow("Raycaster");
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+    glutInitWindowSize(1024, 512);
+    glutCreateWindow("Raycaster");
     init();
-    glfwDisplayFunc(display);
-    glfwMainLoop();
+    glutDisplayFunc(display);
+    glutMainLoop();
 };
