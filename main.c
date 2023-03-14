@@ -1,3 +1,4 @@
+#include <GL/freeglut_std.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <GL/glut.h>
@@ -13,7 +14,23 @@ void drawPlayer()  {
     glBegin(GL_POINTS);
     glVertex2i(px,py);
     glEnd();
-}
+};
+
+void playerControls(unsigned char key, int x, int y) {
+    if(key=='a') {
+        px-=5;
+    };
+    if(key=='d') {
+        px+=5;
+    };
+    if(key=='w') {
+        py-=5;
+    };
+    if(key=='s') {
+        py+=5;
+    };
+    glutPostRedisplay();
+};
 
 
 void display() {
@@ -36,5 +53,6 @@ int main(int argc, char *argv[]) {
     glutCreateWindow("Raycaster");
     init();
     glutDisplayFunc(display);
+    glutKeyboardFunc(playerControls);
     glutMainLoop();
 };
