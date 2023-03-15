@@ -228,10 +228,10 @@ void drawRays2D() {
         // Draw 3D walls
         float ca = pa - ra; if(ca < 0){ca+=2*PI;} if(ca>2*PI){ca-=2*PI;} disT=disT*cos(ca); // fix fisheye effect
         float lineH = (mapS * 320) / disT; // line height
-        float lineO = 160 - lineH / 2; // line offset (centers walls)
         if (lineH > 320) {
             lineH = 320;
         }
+        float lineO = 160 - lineH / 2; // line offset (centers walls)
         glLineWidth(8);
         glBegin(GL_LINES);
         glVertex2i(r * 8 + 530, lineO);
