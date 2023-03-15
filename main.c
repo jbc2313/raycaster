@@ -198,17 +198,19 @@ void drawRays2D() {
             }
         }
         if (disV < disH) {
+            //vertical wall hit
             rx = vx;
             ry = vy;
             disT = disV;
+            glColor3f(0.9,0,0);
         };
         if (disH < disV) {
+            //horizontal wall hit
             rx = hx;
             ry = hy;
             disT = disH;
+            glColor3f(0.7,0,0);
         };
-
-        glColor3f(1,0,0); 
         glLineWidth(3); 
         glBegin(GL_LINES); 
         glVertex2i(px,py); 
@@ -224,14 +226,16 @@ void drawRays2D() {
         }
 
         // Draw 3D walls
-        float lineH = (mapS * 320) / disT;
+        float ca = pa - ra; if(ca < 0){ca+=2*PI;} if(ca>2*PI){ca-=2*PI;} disT=disT*cos(ca); // fix fisheye effect
+        float lineH = (mapS * 320) / disT; // line height
+        float lineO = 160 - lineH / 2; // line offset (centers walls)
         if (lineH > 320) {
             lineH = 320;
         }
         glLineWidth(8);
         glBegin(GL_LINES);
-        glVertex2i(r * 8 + 530, 0);
-        glVertex2i(r * 8 + 530, lineH);
+        glVertex2i(r * 8 + 530, lineO);
+        glVertex2i(r * 8 + 530, lineH + lineO);
         glEnd();
     };
 };
