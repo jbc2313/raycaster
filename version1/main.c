@@ -231,6 +231,7 @@ void drawRays2D() {
         if (lineH > 320) {
             lineH = 320;
         }
+
         float lineO = 160 - lineH / 2; // line offset (centers walls)
         glLineWidth(8);
         glBegin(GL_LINES);
