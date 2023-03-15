@@ -98,15 +98,15 @@ float dist(float ax, float ay, float bx, float by, float ang) {
 
 void drawRays2D() {
     int r, mx, my, mp, dof;
-    float rx, ry, ra, xo, yo;
-    ra = pa - DR * 30;
+    float rx, ry, ra, xo, yo, disT;
+    ra = pa - DR * 30; // shift rays to left 30 degrees
     if (ra < 0) {
         ra += 2 * PI;
     };
     if (ra > 2 * PI) {
         ra -= 2 * PI;
     };
-    for (r = 0; r < 10; r++) {
+    for (r = 0; r < 60; r++) {
         // check horizontal lines
         dof = 0;
         float disH=1000000, hx=px, hy=py;
@@ -200,10 +200,12 @@ void drawRays2D() {
         if (disV < disH) {
             rx = vx;
             ry = vy;
+            disT = disV;
         };
         if (disH < disV) {
             rx = hx;
             ry = hy;
+            disT = disH;
         };
 
         glColor3f(1,0,0); 
@@ -212,6 +214,7 @@ void drawRays2D() {
         glVertex2i(px,py); 
         glVertex2i(rx,ry); 
         glEnd();
+        
         ra += DR;
         if (ra < 0) {
             ra += 2 * PI;
@@ -219,6 +222,17 @@ void drawRays2D() {
         if (ra > 2 * PI) {
             ra -= 2 * PI;
         }
+
+        // Draw 3D walls
+        float lineH = (mapS * 320) / disT;
+        if (lineH > 320) {
+            lineH = 320;
+        }
+        glLineWidth(8);
+        glBegin(GL_LINES);
+        glVertex2i(r * 8 + 530, 0);
+        glVertex2i(r * 8 + 530, lineH);
+        glEnd();
     };
 };
 
